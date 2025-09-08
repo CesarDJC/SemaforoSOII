@@ -6,7 +6,7 @@
 *.log
 
 # Directorios de compilación
-bin/
+
 obj/
 
 # Otros
