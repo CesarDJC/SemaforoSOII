@@ -43,7 +43,7 @@
             // 
             // numericUpDownRojo
             // 
-            numericUpDownRojo.Location = new Point(178, 90);
+            numericUpDownRojo.Location = new Point(204, 86);
             numericUpDownRojo.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
             numericUpDownRojo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericUpDownRojo.Name = "numericUpDownRojo";
@@ -53,7 +53,7 @@
             // 
             // numericUpDownAmarillo
             // 
-            numericUpDownAmarillo.Location = new Point(178, 161);
+            numericUpDownAmarillo.Location = new Point(204, 163);
             numericUpDownAmarillo.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
             numericUpDownAmarillo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericUpDownAmarillo.Name = "numericUpDownAmarillo";
@@ -63,7 +63,7 @@
             // 
             // numericUpDownVerde
             // 
-            numericUpDownVerde.Location = new Point(178, 233);
+            numericUpDownVerde.Location = new Point(204, 233);
             numericUpDownVerde.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
             numericUpDownVerde.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericUpDownVerde.Name = "numericUpDownVerde";
@@ -96,27 +96,30 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(56, 86);
             label1.Name = "label1";
-            label1.Size = new Size(40, 20);
+            label1.Size = new Size(51, 25);
             label1.TabIndex = 5;
             label1.Text = "Rojo";
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(56, 163);
             label2.Name = "label2";
-            label2.Size = new Size(86, 20);
+            label2.Size = new Size(111, 25);
             label2.TabIndex = 6;
             label2.Text = "Anaranjado";
             // 
             // label3
             // 
             label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(56, 240);
             label3.Name = "label3";
-            label3.Size = new Size(47, 20);
+            label3.Size = new Size(61, 25);
             label3.TabIndex = 7;
             label3.Text = "Verde";
             // 
@@ -137,7 +140,7 @@
             MinimizeBox = false;
             Name = "FormConfig";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FormConfig";
+            Text = "Configuración semaforos";
             Load += FormConfig_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDownRojo).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownAmarillo).EndInit();

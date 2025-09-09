@@ -6,17 +6,16 @@ namespace SimuladorSemaforo
     {
         // Control de hilos
         private CancellationTokenSource cts;
+        private bool simulando = false; //evitar múltiples hilos
 
         // Tiempos
         private int tiempoRojo = 10;
         private int tiempoAmarillo = 3;
         private int tiempoVerde = 7;
 
-        // Estados de los semáforos
-        private int estado1 = 0; // Semáforo 1 empieza en Rojo
-        private int estado2 = 2; // Semáforo 2 empieza en Verde
-        private int contador1;
-        private int contador2;
+        // Estado del semáforo
+        private int estado = 0; // 0 = Rojo, 1 = Amarillo, 2 = Verde
+        private int contador;
 
         // Sensor de tráfico
         private bool sensorActivado = false;
@@ -44,122 +43,81 @@ namespace SimuladorSemaforo
             amarilloOff = Image.FromFile(rutaRecursos + "amarillo_off.png");
             verdeOn = Image.FromFile(rutaRecursos + "verde_on.png");
             verdeOff = Image.FromFile(rutaRecursos + "verde_off.png");
-
+  
             InicializarSemaforo();
         }
         private void InicializarSemaforo()
         {
-            estado1 = 0; contador1 = tiempoRojo;   // Semáforo 1 empieza en rojo
-            estado2 = 2; contador2 = tiempoVerde;  // Semáforo 2 empieza en verde
-            ActualizarSemaforos();
+            estado = 0;
+            contador = tiempoRojo;   // Semáforo empieza en rojo
+            ActualizarSemaforo();
         }
 
-
-        // 🚦 Simulación en un hilo aparte
-        // 🚦 Simulación en un hilo aparte
-        private void SimularSemaforos(CancellationToken token)
+        private void SimularSemaforo(CancellationToken token)
         {
-            // Variables para guardar la duración total de cada fase
-            int duracion1 = 0;
-            int duracion2 = 0;
+            int duracion = tiempoRojo;
 
             while (!token.IsCancellationRequested)
             {
-                contador1--;
-                contador2--;
+                contador--;
 
-                // ---- Semáforo 1 ----
-                if (contador1 <= 0)
+                if (contador <= 0)
                 {
-                    switch (estado1)
+                    switch (estado)
                     {
-                        case 0: // Rojo → Verde
-                            estado1 = 2;
-                            duracion1 = tiempoVerde;
-                            if (sensorActivado) { duracion1 += 5; }
-                            contador1 = duracion1;
+                        case 0: // Rojo a Verde
+                            estado = 2;
+                            duracion = tiempoVerde;
+
+                            //  aplicar sensor antes de asignar contador
+                            if (sensorActivado)
+                            {
+                                duracion += 5;
+                                sensorActivado = false; // consumirlo aquí
+                            }
+
+                            contador = duracion;
                             TryPlay(sonidoVerde);
                             break;
 
-                        case 2: // Verde → Amarillo
-                            estado1 = 1;
-                            duracion1 = tiempoAmarillo;
-                            contador1 = duracion1;
+                        case 2: // Verde a Amarillo
+                            estado = 1;
+                            duracion = tiempoAmarillo;
+                            contador = duracion;
                             break;
 
-                        case 1: // Amarillo → Rojo
-                            estado1 = 0;
-                            duracion1 = tiempoRojo;
-                            contador1 = duracion1;
+                        case 1: //  Amarillo a Rojo
+                            estado = 0;
+                            duracion = tiempoRojo;
+                            contador = duracion;
                             TryPlay(sonidoRojo);
                             break;
                     }
                 }
 
-                // ---- Semáforo 2 ----
-                if (contador2 <= 0)
-                {
-                    switch (estado2)
-                    {
-                        case 0: // Rojo → Verde
-                            estado2 = 2;
-                            duracion2 = tiempoVerde;
-                            if (sensorActivado) { duracion2 += 5; }
-                            contador2 = duracion2;
-                            TryPlay(sonidoVerde);
-                            break;
 
-                        case 2: // Verde → Amarillo
-                            estado2 = 1;
-                            duracion2 = tiempoAmarillo;
-                            contador2 = duracion2;
-                            break;
-
-                        case 1: // Amarillo → Rojo
-                            estado2 = 0;
-                            duracion2 = tiempoRojo;
-                            contador2 = duracion2;
-                            TryPlay(sonidoRojo);
-                            break;
-                    }
-                }
-
-                // ✅ Desactivamos el sensor después de aplicarlo
-                if (sensorActivado) sensorActivado = false;
-
-                // 🔄 Actualizar la interfaz gráfica (desde hilo UI con Invoke)
                 this.Invoke((Action)(() =>
                 {
-                    ActualizarSemaforos();
+                    ActualizarSemaforo();
                     lblEstado.Text =
-                        $"Semáforo 1: {(estado1 == 0 ? "Rojo" : estado1 == 1 ? "Amarillo" : "Verde")} ({contador1}/{duracion1}s)\n" +
-                        $"Semáforo 2: {(estado2 == 0 ? "Rojo" : estado2 == 1 ? "Amarillo" : "Verde")} ({contador2}/{duracion2}s)";
+                        $"Semáforo: {(estado == 0 ? "Rojo" : estado == 1 ? "Amarillo" : "Verde")} ({contador}/{duracion}s)";
                 }));
 
-                Thread.Sleep(1000); // ⏱ Espera 1 segundo entre ciclos
+                Thread.Sleep(1000); // ⏱ 1 segundo
             }
         }
 
-
-        // Actualiza imágenes de luces
-        private void ActualizarSemaforos()
+        private void ActualizarSemaforo()
         {
-            // Semáforo 1
-            pictureBoxRojo.Image = (estado1 == 0) ? rojoOn : rojoOff;
-            pictureBoxAmarillo.Image = (estado1 == 1) ? amarilloOn : amarilloOff;
-            pictureBoxVerde.Image = (estado1 == 2) ? verdeOn : verdeOff;
-
-            // Semáforo 2
-            pictureBoxRojo2.Image = (estado2 == 0) ? rojoOn : rojoOff;
-            pictureBoxAmarillo2.Image = (estado2 == 1) ? amarilloOn : amarilloOff;
-            pictureBoxVerde2.Image = (estado2 == 2) ? verdeOn : verdeOff;
+            pictureBoxRojo.Image = (estado == 0) ? rojoOn : rojoOff;
+            pictureBoxAmarillo.Image = (estado == 1) ? amarilloOn : amarilloOff;
+            pictureBoxVerde.Image = (estado == 2) ? verdeOn : verdeOff;
         }
 
         private static void TryPlay(SoundPlayer sp)
         {
             try { sp?.Play(); } catch { }
         }
-
         private void lblEstado_Click(object sender, EventArgs e)
         {
 
@@ -167,13 +125,30 @@ namespace SimuladorSemaforo
 
         private async void btnIniciar_Click(object sender, EventArgs e)
         {
+            if (simulando) return; 
+            simulando = true;
+
             cts = new CancellationTokenSource();
-            await Task.Run(() => SimularSemaforos(cts.Token));
+            try
+            {
+                await Task.Run(() => SimularSemaforo(cts.Token));
+            }
+            finally
+            {
+                simulando = false;
+            }
+
         }
 
         private void btnDetener_Click(object sender, EventArgs e)
         {
+            if (!simulando) return; 
             cts?.Cancel();
+            simulando = false;
+
+            
+            InicializarSemaforo();
+            lblEstado.Text=string.Empty;
         }
 
         private void btnConfigurar_Click(object sender, EventArgs e)
@@ -192,15 +167,15 @@ namespace SimuladorSemaforo
         {
             sensorActivado = true;
 
-            // ⏱ Si alguno está en verde ahora mismo, le añadimos +5 al contador directamente
-            if (estado1 == 2) contador1 += 5;
-            if (estado2 == 2) contador2 += 5;
+            // Si está en verde ahora mismo, alarga directamente
+            if (estado == 2) contador += 5;
 
             MessageBox.Show("Sensor activado: el próximo o actual verde durará +5s.",
                             "Sensor de tráfico", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
-        { cts?.Cancel();
+        {
+            cts?.Cancel();
 
             try { sonidoVerde?.Stop(); sonidoVerde?.Dispose(); } catch { }
             try { sonidoRojo?.Stop(); sonidoRojo?.Dispose(); } catch { }

@@ -31,23 +31,15 @@
             pictureBoxRojo = new PictureBox();
             pictureBoxAmarillo = new PictureBox();
             pictureBoxVerde = new PictureBox();
-            pictureBoxVerde2 = new PictureBox();
-            pictureBoxAmarillo2 = new PictureBox();
-            pictureBoxRojo2 = new PictureBox();
             lblEstado = new Label();
             btnIniciar = new Button();
             btnDetener = new Button();
             btnConfigurar = new Button();
             btnSensor = new Button();
-            panel1 = new Panel();
             panel2 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRojo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAmarillo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxVerde).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxVerde2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxAmarillo2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxRojo2).BeginInit();
-            panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,45 +70,19 @@
             pictureBoxVerde.TabIndex = 2;
             pictureBoxVerde.TabStop = false;
             // 
-            // pictureBoxVerde2
-            // 
-            pictureBoxVerde2.Location = new Point(28, 267);
-            pictureBoxVerde2.Name = "pictureBoxVerde2";
-            pictureBoxVerde2.Size = new Size(80, 80);
-            pictureBoxVerde2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBoxVerde2.TabIndex = 5;
-            pictureBoxVerde2.TabStop = false;
-            // 
-            // pictureBoxAmarillo2
-            // 
-            pictureBoxAmarillo2.Location = new Point(28, 150);
-            pictureBoxAmarillo2.Name = "pictureBoxAmarillo2";
-            pictureBoxAmarillo2.Size = new Size(80, 80);
-            pictureBoxAmarillo2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBoxAmarillo2.TabIndex = 4;
-            pictureBoxAmarillo2.TabStop = false;
-            // 
-            // pictureBoxRojo2
-            // 
-            pictureBoxRojo2.Location = new Point(28, 23);
-            pictureBoxRojo2.Name = "pictureBoxRojo2";
-            pictureBoxRojo2.Size = new Size(80, 80);
-            pictureBoxRojo2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBoxRojo2.TabIndex = 3;
-            pictureBoxRojo2.TabStop = false;
-            // 
             // lblEstado
             // 
             lblEstado.AutoSize = true;
-            lblEstado.Location = new Point(514, 72);
+            lblEstado.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEstado.Location = new Point(209, 20);
             lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(0, 20);
+            lblEstado.Size = new Size(0, 28);
             lblEstado.TabIndex = 6;
             lblEstado.Click += lblEstado_Click;
             // 
             // btnIniciar
             // 
-            btnIniciar.Location = new Point(710, 72);
+            btnIniciar.Location = new Point(337, 112);
             btnIniciar.Name = "btnIniciar";
             btnIniciar.Size = new Size(127, 50);
             btnIniciar.TabIndex = 7;
@@ -126,7 +92,7 @@
             // 
             // btnDetener
             // 
-            btnDetener.Location = new Point(710, 156);
+            btnDetener.Location = new Point(334, 200);
             btnDetener.Name = "btnDetener";
             btnDetener.Size = new Size(127, 43);
             btnDetener.TabIndex = 8;
@@ -136,7 +102,7 @@
             // 
             // btnConfigurar
             // 
-            btnConfigurar.Location = new Point(710, 231);
+            btnConfigurar.Location = new Point(334, 273);
             btnConfigurar.Name = "btnConfigurar";
             btnConfigurar.Size = new Size(127, 48);
             btnConfigurar.TabIndex = 9;
@@ -146,25 +112,13 @@
             // 
             // btnSensor
             // 
-            btnSensor.Location = new Point(707, 316);
+            btnSensor.Location = new Point(334, 359);
             btnSensor.Name = "btnSensor";
             btnSensor.Size = new Size(130, 59);
             btnSensor.TabIndex = 10;
             btnSensor.Text = "Sensor Tráfico";
             btnSensor.UseVisualStyleBackColor = true;
-            btnSensor.Visible = false;
             btnSensor.Click += btnSensor_Click;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = SystemColors.ControlText;
-            panel1.Controls.Add(pictureBoxRojo2);
-            panel1.Controls.Add(pictureBoxAmarillo2);
-            panel1.Controls.Add(pictureBoxVerde2);
-            panel1.Location = new Point(438, 49);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(144, 378);
-            panel1.TabIndex = 11;
             // 
             // panel2
             // 
@@ -172,7 +126,7 @@
             panel2.Controls.Add(pictureBoxRojo);
             panel2.Controls.Add(pictureBoxAmarillo);
             panel2.Controls.Add(pictureBoxVerde);
-            panel2.Location = new Point(177, 59);
+            panel2.Location = new Point(71, 81);
             panel2.Name = "panel2";
             panel2.Size = new Size(138, 368);
             panel2.TabIndex = 12;
@@ -181,9 +135,9 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(929, 461);
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(680, 461);
             Controls.Add(panel2);
-            Controls.Add(panel1);
             Controls.Add(btnSensor);
             Controls.Add(btnConfigurar);
             Controls.Add(btnDetener);
@@ -194,15 +148,11 @@
             MinimizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Simulador Semaforo";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxRojo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAmarillo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxVerde).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxVerde2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxAmarillo2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxRojo2).EndInit();
-            panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -213,15 +163,11 @@
         private PictureBox pictureBoxRojo;
         private PictureBox pictureBoxAmarillo;
         private PictureBox pictureBoxVerde;
-        private PictureBox pictureBoxVerde2;
-        private PictureBox pictureBoxAmarillo2;
-        private PictureBox pictureBoxRojo2;
         private Label lblEstado;
         private Button btnIniciar;
         private Button btnDetener;
         private Button btnConfigurar;
         private Button btnSensor;
-        private Panel panel1;
         private Panel panel2;
     }
 }
